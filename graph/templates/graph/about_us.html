@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+<head>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
+    <title>Graph Sonification</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'graph/style.css' %}">
+</head>
+
+<style>
+.about-section {
+    padding: 50px 0;
+    text-align: center;
+   
+}
+
+.mission-container {
+      background-color: #fff; 
+    color: #000; 
+    padding: 20px; 
+    margin: 20px 0; 
+    border-radius: 10px; 
+   max-width: 800px;
+}
+
+.misson-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 20px;
+    max-width: 800px;
+}
+
+
+.mission-container h2 {
+    color: #000;
+    font-size: 24px; 
+    margin-bottom: 10px; 
+}
+
+.mission-container p {
+    color: #000;
+    font-size: 16px; 
+    line-height: 2; 
+}
+
+
+.team-section {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 200px; 
+}
+
+.team-section .top-cards{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 60px;
+    justify-content: center;
+    max-width: 1600px;
+}
+
+.team-section .bottom-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center; 
+    align-items: center; 
+    margin-top: 20px; 
+    max-width: 1200px;
+    margin-left: 180px;
+    margin-bottom: 80px; 
+}
+
+.flip-card {
+    background-color: transparent;
+    width: 300px;
+    height: 300px;
+    perspective: 1000px;
+    margin-bottom: 12px;
+ }
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.flip-card.flipped .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.flip-card-front {
+    background-color: #bbb;
+    color: black;
+}
+
+.flip-card-back {
+   background-color: #0085FF;
+    color: white;
+    transform: rotateY(180deg);
+}
+
+</style>
+
+<body>
+   <div class="navbar">
+    <div>
+      <a href="{% url 'graph:index' %}">
+            <img src="https://i.ibb.co/pZZRGV0/logo-removebg-preview.png" border="0" alt="Logo for the website. Has the team name: Syntax Squad in a circle with a graph depicting sound waves behind it" height="60" width="120">        
+        </a>
+    </div>
+
+ <a href="{% url 'graph:about_us' %}" class="dropbutton" style="position: fixed; top: 0px; right: calc(10px + 110px); height: 40px; text-align: center;line-height: 40px;text-decoration: none;">About Us</a>
+
+   
+    <div class="dropdown">
+  <button onclick="toggledrop()" class="dropbutton">Settings</button>
+  <div id="dropperdowner" class="dropdown-content">
+    <button id="defaultID" onclick="defaultMode('defaultCSS')">Default</button>
+    <button id="darkmodeID" onclick="darkMode('darkmodeCSS')">Dark Mode</button>
+    <button id="protanopiaID" onclick="protanopiaMode('protanopiaCSS')">Protanopia</button>
+    <button id="deuteranopiaID" onclick="deuteranopiaMode('deuteranopiaCSS')">Deuteranopia</button>
+    <button id="tritanopiaID" onclick="tritanopiaMode('tritanopiaCSS')">Tritanopia</button>
+    <button id="monochromaID" onclick="monochromaMode('monochromaCSS')">Monochroma</button>
+  </div>
+  
+</div>
+</div>
+    
+    <div class="about-section">
+        <div class="container">
+            <h2>About Us</h2>
+            <p></p>
+        </div>
+    </div>
+<div class="mission-container">
+    <div class="mission-section">
+        <div class="container">
+            <h2>Graph Sonification</h2>
+            <p>The goal for this project was to allow the user to upload create a graph using their preferred method and have the ability to have the data be presented to them using sonification.
+                The project so far has the ability for the user to create the graph using a file upload or enter the data manually. The project is being developed by a team of 5 during the Spring
+                2024 semester.</p>
+        </div>
+    </div>
+   </div>
+
+    <div class="team-section">
+    <div class="container">
+        <h2>Our Team - Syntax Squad</h2>
+  <div class="top-cards">
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <img src="https://i.ibb.co/Swz1ngB/IMG-2331.jpg" width="300" height="300">
+                </div>
+                <div class="flip-card-back">
+                    <h1>Cody Walls</h1> 
+                    <p>Back End</p> 
+                    Worked on creating the graphs from the inputted excel sheets, Saving
+                    the selected graph typed with the color blind setting to a PDF, also 
+                    deployed the website using Postgres | Railway and Vercel 
+                    as our sever. 
+                    <p></p>
+                </div>
+            </div>
+        </div>
+
+          <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <img src="" width="300" height="300">
+                </div>
+                <div class="flip-card-front">
+                    <img src="https://i.ibb.co/7Xzyf82/IMG-3517.jpg" alt="IMG-3517" border="0" width="300" height="300"/>
+                </div>
+                <div class="flip-card-back">
+                    <h1>Jason Wolfe</h1> 
+                    <p>Back End</p> 
+                    <p>Worked on the logic for generating audio from integer values and handling excel/csv data.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <img src="https://i.ibb.co/xMXvstt/image000000.jpg"width="300" height="300">
+                </div>
+                <div class="flip-card-back">
+                    <h1>Alex Kieter</h1> 
+                    <p>Back End</p> 
+                    <p>Worked on making the website accessible by designing a native screen reader and by making the site navigateable with it and third party screen readers.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom-cards">
+
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <img src="https://i.ibb.co/qYRTcgJ/PXL-20240106-044200096-NIGHT.jpg" width="300" height="300">
+                </div>
+                <div class="flip-card-back">
+                    <h1>Ethan Batres</h1> 
+                    <p>Front End</p> 
+                    <p>I designed the overall look of the pages and buttons. This was my first time working on front end and I learned a lot from working on this project and I proud of the work the team and I made.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <img src="https://i.ibb.co/8dVPQ78/IMG-0016.jpg" width="300" height="300">
+                </div>
+                <div class="flip-card-back">
+                    <h1>Brandon Sharp</h1> 
+                    <p>Front End</p> 
+                   <p style="font-size:18px";>I implemented darkmode and the other color modes. I helped with the design of the pages. This wasn't my first time with front end but I still learned more about front end. I enjoyed working on this project with this team.</p>
+                </div>
+            </div>
+</div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function toggledrop() {
+        document.getElementById("dropperdowner").classList.toggle("show");
+    }
+
+    window.onclick = function(event) {
+        if (!event.target.matches('.dropbutton')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+
+    var setMode = localStorage.getItem('theme');
+    console.log('theme:', setMode);                
+    function defaultMode() {
+        let elementBody = document.body;
+        elementBody.className = "body";
+    }
+
+    if (setMode == null) {
+        defaultMode('defaultCSS');
+    } else if (setMode == 'defaultCSS') {
+        defaultMode('defaultCSS');
+    } else if (setMode == 'darkmodeCSS') {
+        darkMode('darkmodeCSS');
+    } else if (setMode == 'protanopiaCSS') {
+        protanopiaMode('protanopiaCSS');
+    } else if (setMode == 'deuteranopiaCSS') {
+        deuteranopiaMode('deuteranopiaCSS');
+    } else if (setMode == 'tritanopiaCSS') {
+        tritanopiaMode('tritanopiaCSS');
+    } else if (setMode == 'monochromaCSS') {
+        monochromaMode('monochromaCSS');
+    }
+
+    function defaultMode(content) {
+        let elementBody = document.body;
+        elementBody.className = "body";
+
+        content.innerText = "Default";
+        localStorage.setItem('theme', content);
+
+        let image1 = document.getElementById("step1");
+        let image2 = document.getElementById("step2");
+        let image3 = document.getElementById("step3");
+        image1.src = "https://i.ibb.co/SfDTf84/step1.jpg";
+        image2.src = "https://i.ibb.co/4m4ddWD/step2.jpg";
+        image3.src = "https://i.ibb.co/jvmLfpF/step3.jpg";
+    }
+
+    function darkMode(content) {
+        let elementBody = document.body;
+        elementBody.className = "darkmode";
+
+        content.innerText = "Dark Mode";
+        localStorage.setItem('theme', content);
+
+        let image1 = document.getElementById("step1");
+        let image2 = document.getElementById("step2");
+        let image3 = document.getElementById("step3");
+        image1.src = "https://i.ibb.co/dgCzR5q/step1D.jpg";
+        image2.src = "https://i.ibb.co/3Y1XhVT/step2D.jpg";
+        image3.src = "https://i.ibb.co/gPq6WcD/step3D.jpg";
+    }
+
+    function protanopiaMode(content) {
+        let elementBody = document.body;
+        elementBody.className = "protanopia";
+
+        content.innerText = "Protanopia";
+        localStorage.setItem('theme', content);
+
+        let image1 = document.getElementById("step1");
+        let image2 = document.getElementById("step2");
+        let image3 = document.getElementById("step3");
+        image1.src = "https://i.ibb.co/yst2vrZ/step1Pro.jpg";
+        image2.src = "https://i.ibb.co/4m4ddWD/step2.jpg";
+        image3.src = "https://i.ibb.co/jvmLfpF/step3.jpg";
+    }
+
+    function deuteranopiaMode(content) {
+        let elementBody = document.body;
+        elementBody.className = "deuteranopia";
+
+        content.innerText = "Deuteranopia";
+        localStorage.setItem('theme', content);
+
+        let image1 = document.getElementById("step1");
+        let image2 = document.getElementById("step2");
+        let image3 = document.getElementById("step3");
+        image1.src = "https://i.ibb.co/dKLvMKR/step1Deu.jpg";
+        image2.src = "https://i.ibb.co/4m4ddWD/step2.jpg";
+        image3.src = "https://i.ibb.co/jvmLfpF/step3.jpg";
+    }
+
+    function tritanopiaMode(content) {
+        let elementBody = document.body;
+        elementBody.className = "tritanopia";
+
+        content.innerText = "Tritanopia";
+        localStorage.setItem('theme', content);
+
+        let image1 = document.getElementById("step1");
+        let image2 = document.getElementById("step2");
+        let image3 = document.getElementById("step3");
+        image1.src = "https://i.ibb.co/YDf4fHm/step2tri-JPG.jpg";
+        image2.src = "https://i.ibb.co/4m4ddWD/step2.jpg";
+        image3.src = "https://i.ibb.co/jvmLfpF/step3.jpg";
+    }
+
+    function monochromaMode(content) {
+        let elementBody = document.body;
+        elementBody.className = "monochroma";
+
+        content.innerText = "Monochroma";
+        localStorage.setItem('theme', content);
+
+        let image1 = document.getElementById("step1");
+        let image2 = document.getElementById("step2");
+        let image3 = document.getElementById("step3");
+        image1.src = "https://i.ibb.co/ySDqb4R/step1mono.jpg";
+        image2.src = "https://i.ibb.co/4m4ddWD/step2.jpg";
+        image3.src = "https://i.ibb.co/jvmLfpF/step3.jpg";
+    }
+</script>
